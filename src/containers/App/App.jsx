@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { Router as BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../scss/app.scss';
 import Router from './Router';
 import store from './store';
 import ScrollToTop from './ScrollToTop';
+import history from './history';
 
 class App extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class App extends Component {
     const { loaded, loading } = this.state;
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter history={history}>
           <ScrollToTop>
             <Fragment>
               {!loaded

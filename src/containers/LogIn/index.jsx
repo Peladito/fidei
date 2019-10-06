@@ -46,10 +46,10 @@ class Register extends React.Component {
   };
 
 
-  handleSubmit(loginData) {
-    const { logIn } = this.props;
+  async handleSubmit(loginData) {
+    // eslint-disable-next-line
+    const { logIn, history } = this.props;
     logIn(loginData);
-    // history.push('/dashboard');
   }
 
   render() {
