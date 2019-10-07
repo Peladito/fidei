@@ -39,6 +39,7 @@
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
+    "redux-logger": "^3.0.6",
     "redux-promise": "^0.6.0",
     "resolve": "1.10.0",
     "smooth-scrollbar": "^8.3.1",

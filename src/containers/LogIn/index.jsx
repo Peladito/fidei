@@ -48,19 +48,19 @@ class Register extends React.Component {
 
   async handleSubmit(loginData) {
     // eslint-disable-next-line
-    const { logIn, history } = this.props;
+    const { logIn } = this.props;
     logIn(loginData);
   }
 
   render() {
     // eslint-disable-next-line
-    console.log(this.props.jwt)
+    console.log(this.props.jwt, this.props.error)
     const Login = LogIn(this.handleSubmit.bind(this));
     return (<Login />);
   }
 }
 
-const mapStateToProps = state => ({ jwt: state.api.jwt });
+const mapStateToProps = state => ({ jwt: state.api.jwt, error: state.api.loginError });
 
 export default connect(
   mapStateToProps,
