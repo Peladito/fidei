@@ -4,12 +4,12 @@ import Layout from '../Layout/index';
 import MainWrapper from './MainWrapper';
 
 import LogIn from '../LogIn/index';
-import ExamplePageOne from '../Example/index';
+import UsersPage from '../Users/index';
 import ExamplePageTwo from '../ExampleTwo/index';
 
 const Pages = () => (
   <Switch>
-    <Route path="/pages/one" component={ExamplePageOne} />
+    <Route path="/pages/users" component={UsersPage} />
     <Route path="/pages/two" component={ExamplePageTwo} />
   </Switch>
 );

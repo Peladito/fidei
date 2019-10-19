@@ -7,12 +7,24 @@ export default class TopbarMenuLinks extends PureComponent {
     title: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
+    clickHandler: PropTypes.func,
+  };
+
+  static defaultProps = {
+    clickHandler: null,
   };
 
   render() {
-    const { title, icon, path } = this.props;
+    const {
+      title, icon, path, clickHandler,
+    } = this.props;
 
-    return (
+    return clickHandler ? (
+      <div role="button" className="topbar__link" onClick={clickHandler} tabIndex="0" onKeyDown={() => ({})}>
+        <span className={`topbar__link-icon lnr lnr-${icon}`} />
+        <p className="topbar__link-title">{title}</p>
+      </div>
+    ) : (
       <Link className="topbar__link" to={path}>
         <span className={`topbar__link-icon lnr lnr-${icon}`} />
         <p className="topbar__link-title">{title}</p>

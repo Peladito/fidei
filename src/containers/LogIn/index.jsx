@@ -6,8 +6,21 @@ import FacebookIcon from 'mdi-react/FacebookIcon';
 import GooglePlusIcon from 'mdi-react/GooglePlusIcon';
 import { logIn as apiLogIn } from '../../redux/actions/apiActions';
 import LogInForm from './components/LogInForm';
+import Alert from '../../shared/components/Alert';
 
-const LogIn = loginHandler => () => (
+
+const AppAlert = ({ type, title, message }) => (
+  <Alert color={type}><p><span className="bold-text">{title}: </span>{message}</p></Alert>
+);
+
+AppAlert.propTypes = {
+  type: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+};
+
+
+const LogIn = (loginHandler, error) => () => (
   <div className="account">
     <div className="account__wrapper">
       <div className="account__card">
@@ -19,6 +32,7 @@ const LogIn = loginHandler => () => (
           </h3>
           <h4 className="account__subhead subhead">Start your business easily</h4>
         </div>
+        { error ? <AppAlert type="danger" title="Unauthorized" message="Wrong credentials" /> : <div />}
         <LogInForm onSubmit={loginHandler} />
         <div className="account__or">
           <p>Or Easily Using</p>
@@ -43,24 +57,27 @@ const LogIn = loginHandler => () => (
 class Register extends React.Component {
   static propTypes = {
     logIn: PropTypes.func.isRequired,
+    error: PropTypes.shape({}),
   };
 
+  static defaultProps = {
+    error: null,
+  };
 
   async handleSubmit(loginData) {
     // eslint-disable-next-line
     const { logIn } = this.props;
-    logIn(loginData);
+    await logIn(loginData);
   }
 
   render() {
-    // eslint-disable-next-line
-    console.log(this.props.jwt, this.props.error)
-    const Login = LogIn(this.handleSubmit.bind(this));
+    const { error } = this.props;
+    const Login = LogIn(this.handleSubmit.bind(this), error);
     return (<Login />);
   }
 }
 
-const mapStateToProps = state => ({ jwt: state.api.jwt, error: state.api.loginError });
+const mapStateToProps = state => ({ user: state.api.user, error: state.api.loginError });
 
 export default connect(
   mapStateToProps,
