@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import MatTable from '../../../shared/components/table/MatTable';
 import { getUsers as apiGetUsers } from '../../../redux/actions/apiActions';
 
-class ExampleCard extends React.Component {
+class UsersCard extends React.Component {
   static propTypes = {
     tabulatedSource: PropTypes.shape({}).isRequired,
     fetchUsers: PropTypes.func.isRequired,
@@ -18,7 +18,7 @@ class ExampleCard extends React.Component {
 
   async componentWillMount() {
     const { fetchUsers } = this.props;
-    fetchUsers(1, 20, { direction: 'asc', field: 'calories' });
+    fetchUsers(0, 20, { direction: 'asc', field: 'calories' });
   }
 
   render() {
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({ tabulatedSource: state.api.tabulatedSource }
 export default connect(
   mapStateToProps,
   { fetchUsers: apiGetUsers },
-)(ExampleCard);
+)(UsersCard);

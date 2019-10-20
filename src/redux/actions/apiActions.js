@@ -1,5 +1,7 @@
 import history from '../../containers/App/history';
-import { login, logout, getUsers as fetchUsers } from '../../api/apiService';
+import {
+  login, logout, getUsers as fetchUsers, deleteUser,
+} from '../../api/apiService';
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const LOG_IN = 'LOG_IN';
@@ -35,9 +37,7 @@ export const getUsers = (page, limit, order) => async (dispatch) => {
   let action = null;
   const dataSource = await fetchUsers(page, limit, order);
   action = { type: FETCH_USERS, data: dataSource };
-  action.data = {
-    data: dataSource.data,
-    order,
+  action.data = Object.assign(action.data, {
     handleSort(property) {
       const sameProperty = property === this.order.field;
       const ascDirection = this.order.direction === 'asc';
@@ -45,7 +45,16 @@ export const getUsers = (page, limit, order) => async (dispatch) => {
       dispatch(getUsers(page, limit, this.order));
     },
     handleClick: () => ({}),
-    handlePaginate: () => ({}),
-  };
+    changePage(newPage) {
+      dispatch(getUsers(newPage, limit, order));
+    },
+    changeLimit(newLimit) {
+      dispatch(getUsers(page, newLimit, order));
+    },
+    async deleteElements(idsArray) {
+      await deleteUser(idsArray);
+      dispatch(getUsers(page, limit, order));
+    },
+  });
   dispatch(action);
 };

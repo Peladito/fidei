@@ -55,8 +55,11 @@ export default class MatTable extends PureComponent {
 
   state = {
     selected: new Map([]),
-    page: 0,
-    rowsPerPage: 5,
+  };
+
+  getSelections = () => {
+    const { selected } = this.state;
+    return [...selected].reduce((r, [id, active]) => (active ? r.concat([id]) : r), []);
   };
 
   handleRequestSort = (event, property) => {
@@ -66,9 +69,9 @@ export default class MatTable extends PureComponent {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      const { data } = this.state;
+      const { tabulatedSource } = this.props;
       const newSelected = new Map();
-      data.map(n => newSelected.set(n.id, true));
+      tabulatedSource.data.map(n => newSelected.set(n.id, true));
       this.setState({ selected: newSelected });
       return;
     }
@@ -88,23 +91,18 @@ export default class MatTable extends PureComponent {
   };
 
   handleChangePage = (event, page) => {
-    this.setState({ page });
+    const { tabulatedSource } = this.props;
+    tabulatedSource.changePage(page);
   };
 
   handleChangeRowsPerPage = (event) => {
-    this.setState({ rowsPerPage: event.target.value });
+    const { tabulatedSource } = this.props;
+    tabulatedSource.changeLimit(Number(event.target.value));
   };
 
   handleDeleteSelected = () => {
-    const { data } = this.state;
-    let copyData = [...data];
-    const { selected } = this.state;
-
-    for (let i = 0; i < [...selected].filter(el => el[1]).length; i += 1) {
-      copyData = copyData.filter(obj => obj.id !== selected[i]);
-    }
-
-    this.setState({ data: copyData, selected: new Map([]) });
+    const { tabulatedSource } = this.props;
+    tabulatedSource.deleteElements(this.getSelections());
   };
 
   isSelected = (id) => {
@@ -117,12 +115,13 @@ export default class MatTable extends PureComponent {
       selected, rowsPerPage, page,
     } = this.state;
     const { tabulatedSource } = this.props;
-    // eslint-disable-next-line
-    console.log(tabulatedSource);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, tabulatedSource.data.length - (page * rowsPerPage));
     const headersAndLabels = [
       {
-        id: 'name', disablePadding: true, label: 'Dessert (100g serving)',
+        id: 'id', disablePadding: true, label: 'Select',
+      },
+      {
+        id: 'name', disablePadding: false, label: 'Dessert (100g serving)',
       },
       {
         id: 'calories', disablePadding: false, label: 'Calories',
@@ -162,7 +161,6 @@ export default class MatTable extends PureComponent {
                 />
                 <TableBody>
                   {tabulatedSource.data
-                    .slice(page * rowsPerPage, (page * rowsPerPage) + rowsPerPage)
                     .map((d) => {
                       const isSelected = this.isSelected(d.id);
                       const res = headersAndLabels.map(header => (
@@ -204,10 +202,10 @@ export default class MatTable extends PureComponent {
             <TablePagination
               component="div"
               className="material-table__pagination"
-              count={tabulatedSource.data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+              count={tabulatedSource.total}
+              rowsPerPage={tabulatedSource.limit}
+              page={tabulatedSource.page}
+              backIconButtonProps={{ 'aria-label': 'PrevFious Page' }}
               nextIconButtonProps={{ 'aria-label': 'Next Page' }}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
