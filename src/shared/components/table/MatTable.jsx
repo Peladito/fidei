@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Card, CardBody, Col } from 'reactstrap';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -137,88 +136,81 @@ export default class MatTable extends PureComponent {
       },
     ];
     return (
-      <Col md={12} lg={12}>
-        <Card>
-          <CardBody>
-            <div className="card__title">
-              <h5 className="bold-text">Material table</h5>
-            </div>
-            <MatTableToolbar
+      <div>
+        <MatTableToolbar
+          numSelected={[...selected].filter(el => el[1]).length}
+          handleDeleteSelected={this.handleDeleteSelected}
+          onRequestSort={this.handleRequestSort}
+        />
+        <div className="material-table__wrap">
+          <Table className="material-table">
+            <MatTableHead
               numSelected={[...selected].filter(el => el[1]).length}
-              handleDeleteSelected={this.handleDeleteSelected}
+              order={tabulatedSource.order.direction}
+              orderBy={tabulatedSource.order.field}
+              onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
+              rowCount={tabulatedSource.data.length}
+              headers={headersAndLabels}
             />
-            <div className="material-table__wrap">
-              <Table className="material-table">
-                <MatTableHead
-                  numSelected={[...selected].filter(el => el[1]).length}
-                  order={tabulatedSource.order.direction}
-                  orderBy={tabulatedSource.order.field}
-                  onSelectAllClick={this.handleSelectAllClick}
-                  onRequestSort={this.handleRequestSort}
-                  rowCount={tabulatedSource.data.length}
-                  headers={headersAndLabels}
-                />
-                <TableBody>
-                  {tabulatedSource.data
-                    .map((d) => {
-                      const isSelected = this.isSelected(d.id);
-                      const res = headersAndLabels.map(header => (
-                        <TableCell
-                          className="material-table__cell material-table__cell-right"
-                          component="th"
-                          scope="row"
-                          padding="none"
-                        >
-                          {d[header.id]}
-                        </TableCell>
-                      ));
+            <TableBody>
+              {tabulatedSource.data
+                .map((d) => {
+                  const isSelected = this.isSelected(d.id);
+                  const res = headersAndLabels.map(header => (
+                    <TableCell
+                      className="material-table__cell material-table__cell-right"
+                      component="th"
+                      scope="row"
+                      padding="none"
+                    >
+                      {d[header.id]}
+                    </TableCell>
+                  ));
 
-                      return (
-                        <TableRow
-                          className="material-table__row"
-                          role="checkbox"
-                          onClick={event => this.handleClick(event, d.id)}
-                          aria-checked={isSelected}
-                          tabIndex={-1}
-                          key={d.id}
-                          selected={isSelected}
-                        >
-                          <TableCell className="material-table__cell" padding="checkbox">
-                            <Checkbox checked={isSelected} className="material-table__checkbox" />
-                          </TableCell>
-                          {res}
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 49 * emptyRows }}>
-                      <TableCell colSpan={6} />
+                  return (
+                    <TableRow
+                      className="material-table__row"
+                      role="checkbox"
+                      onClick={event => this.handleClick(event, d.id)}
+                      aria-checked={isSelected}
+                      tabIndex={-1}
+                      key={d.id}
+                      selected={isSelected}
+                    >
+                      <TableCell className="material-table__cell" padding="checkbox">
+                        <Checkbox checked={isSelected} className="material-table__checkbox" />
+                      </TableCell>
+                      {res}
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-            <TablePagination
-              component="div"
-              className="material-table__pagination"
-              count={tabulatedSource.total}
-              rowsPerPage={tabulatedSource.limit}
-              page={tabulatedSource.page}
-              backIconButtonProps={{ 'aria-label': 'PrevFious Page' }}
-              nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              rowsPerPageOptions={[5, 10, 15]}
-              dir="ltr"
-              SelectProps={{
-                inputProps: { 'aria-label': 'rows per page' },
-                native: true,
-              }}
-            />
-          </CardBody>
-        </Card>
-      </Col>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 49 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <TablePagination
+          component="div"
+          className="material-table__pagination"
+          count={tabulatedSource.total}
+          rowsPerPage={tabulatedSource.limit}
+          page={tabulatedSource.page}
+          backIconButtonProps={{ 'aria-label': 'PrevFious Page' }}
+          nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 15]}
+          dir="ltr"
+          SelectProps={{
+            inputProps: { 'aria-label': 'rows per page' },
+            native: true,
+          }}
+        />
+      </div>
     );
   }
 }

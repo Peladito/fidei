@@ -93,8 +93,12 @@ const withSortData = sortData => (a, b) => {
   return (pb - pa) * (sortData.direction === 'desc' ? -1 : 1);
 };
 
-export const getUsers = async (page, limit, order) => ({
-  data: fakedData.sort(withSortData(order)).slice(page * limit, (page * limit) + limit),
+const whereItemsHave = searchString => item => (searchString.length > 3
+  ? Object.values(item).join().search(new RegExp(`/${searchString}/i`)) > -1 : true);
+
+export const getUsers = async (page, limit, order, searchWords = '') => ({
+  data: fakedData.filter(whereItemsHave(searchWords)).sort(withSortData(order))
+    .slice(page * limit, (page * limit) + limit),
   order,
   page,
   limit,

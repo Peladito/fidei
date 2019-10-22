@@ -33,7 +33,7 @@ export const logOut = async () => {
   return action;
 };
 
-export const getUsers = (page, limit, order) => async (dispatch) => {
+export const getUsers = (page, limit, order, searchWords = '') => async (dispatch) => {
   let action = null;
   const dataSource = await fetchUsers(page, limit, order);
   action = { type: FETCH_USERS, data: dataSource };
@@ -42,18 +42,21 @@ export const getUsers = (page, limit, order) => async (dispatch) => {
       const sameProperty = property === this.order.field;
       const ascDirection = this.order.direction === 'asc';
       this.order = { field: property, direction: sameProperty && ascDirection ? 'desc' : 'asc' };
-      dispatch(getUsers(page, limit, this.order));
+      dispatch(getUsers(page, limit, this.order, searchWords));
     },
     handleClick: () => ({}),
     changePage(newPage) {
-      dispatch(getUsers(newPage, limit, order));
+      dispatch(getUsers(newPage, limit, order, searchWords));
     },
     changeLimit(newLimit) {
-      dispatch(getUsers(page, newLimit, order));
+      dispatch(getUsers(page, newLimit, order, searchWords));
     },
     async deleteElements(idsArray) {
       await deleteUser(idsArray);
-      dispatch(getUsers(page, limit, order));
+      dispatch(getUsers(page, limit, order, searchWords));
+    },
+    async search(_searchWords) {
+      dispatch(getUsers(page, limit, order, _searchWords));
     },
   });
   dispatch(action);
