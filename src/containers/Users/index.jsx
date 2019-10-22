@@ -3,7 +3,7 @@ import { Container, Row } from 'reactstrap';
 import UsersCard from './components/UsersCard';
 
 const ExamplePage = () => (
-  <Container className="dashboard">
+  <Container>
     <Row>
       <UsersCard />
     </Row>

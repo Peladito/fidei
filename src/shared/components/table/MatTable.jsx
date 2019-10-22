@@ -43,6 +43,10 @@ import MatTableToolbar from './MatTableToolbar';
 
 export default class MatTable extends PureComponent {
   static propTypes = {
+    headers: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.number.isRequired,
+    })).isRequired,
     tabulatedSource: PropTypes.shape({
       order: { field: PropTypes.string, direction: PropTypes.string },
       data: PropTypes.object,
@@ -109,38 +113,48 @@ export default class MatTable extends PureComponent {
     return !!selected.get(id);
   };
 
+  handleSearch = (event) => {
+    const { tabulatedSource } = this.props;
+    if (event.target.value.length > 2 || event.target.value.length === 0) {
+      // eslint-disable-next-line
+      console.log(event.target.value);
+      tabulatedSource.search(event.target.value);
+    }
+  }
+
   render() {
     const {
       selected, rowsPerPage, page,
     } = this.state;
-    const { tabulatedSource } = this.props;
+    const { tabulatedSource, headers } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, tabulatedSource.data.length - (page * rowsPerPage));
-    const headersAndLabels = [
-      {
-        id: 'id', disablePadding: true, label: 'Select',
-      },
-      {
-        id: 'name', disablePadding: false, label: 'Dessert (100g serving)',
-      },
-      {
-        id: 'calories', disablePadding: false, label: 'Calories',
-      },
-      {
-        id: 'fat', disablePadding: false, label: 'Fat (g)',
-      },
-      {
-        id: 'carbs', disablePadding: false, label: 'Carbs (g)',
-      },
-      {
-        id: 'protein', disablePadding: false, label: 'Protein (g)',
-      },
-    ];
+    // const headersAndLabels = [
+    //   {
+    //     id: 'id', disablePadding: true, label: 'Select',
+    //   },
+    //   {
+    //     id: 'name', disablePadding: false, label: 'Dessert (100g serving)',
+    //   },
+    //   {
+    //     id: 'calories', disablePadding: false, label: 'Calories',
+    //   },
+    //   {
+    //     id: 'fat', disablePadding: false, label: 'Fat (g)',
+    //   },
+    //   {
+    //     id: 'carbs', disablePadding: false, label: 'Carbs (g)',
+    //   },
+    //   {
+    //     id: 'protein', disablePadding: false, label: 'Protein (g)',
+    //   },
+    // ];
     return (
       <div>
         <MatTableToolbar
           numSelected={[...selected].filter(el => el[1]).length}
           handleDeleteSelected={this.handleDeleteSelected}
           onRequestSort={this.handleRequestSort}
+          handleSearchChange={this.handleSearch}
         />
         <div className="material-table__wrap">
           <Table className="material-table">
@@ -151,13 +165,13 @@ export default class MatTable extends PureComponent {
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
               rowCount={tabulatedSource.data.length}
-              headers={headersAndLabels}
+              headers={headers}
             />
             <TableBody>
               {tabulatedSource.data
                 .map((d) => {
                   const isSelected = this.isSelected(d.id);
-                  const res = headersAndLabels.map(header => (
+                  const res = headers.map(header => (
                     <TableCell
                       className="material-table__cell material-table__cell-right"
                       component="th"

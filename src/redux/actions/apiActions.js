@@ -35,7 +35,7 @@ export const logOut = async () => {
 
 export const getUsers = (page, limit, order, searchWords = '') => async (dispatch) => {
   let action = null;
-  const dataSource = await fetchUsers(page, limit, order);
+  const dataSource = await fetchUsers(page, limit, order, searchWords);
   action = { type: FETCH_USERS, data: dataSource };
   action.data = Object.assign(action.data, {
     handleSort(property) {
@@ -55,7 +55,9 @@ export const getUsers = (page, limit, order, searchWords = '') => async (dispatc
       await deleteUser(idsArray);
       dispatch(getUsers(page, limit, order, searchWords));
     },
-    async search(_searchWords) {
+    search(_searchWords) {
+      // eslint-disable-next-line
+      console.log('S',_searchWords);
       dispatch(getUsers(page, limit, order, _searchWords));
     },
   });

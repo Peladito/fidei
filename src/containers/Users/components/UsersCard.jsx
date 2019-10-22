@@ -1,13 +1,29 @@
 import React from 'react';
 import {
-  Card, CardBody, Col, ButtonToolbar,
+  Card, CardBody, Col,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
 import MatTable from '../../../shared/components/table/MatTable';
 import { getUsers as apiGetUsers } from '../../../redux/actions/apiActions';
+
+const headers = [
+  {
+    id: 'id', disablePadding: true, label: 'Select',
+  },
+  {
+    id: 'name', disablePadding: false, label: 'Nombre',
+  },
+  {
+    id: 'surname', disablePadding: false, label: 'Apellido',
+  },
+  {
+    id: 'age', disablePadding: false, label: 'Edad',
+  },
+  {
+    id: 'email', disablePadding: false, label: '@',
+  },
+];
 
 class UsersCard extends React.Component {
   static propTypes = {
@@ -22,7 +38,7 @@ class UsersCard extends React.Component {
 
   async componentWillMount() {
     const { fetchUsers } = this.props;
-    fetchUsers(0, 20, { direction: 'asc', field: 'calories' });
+    fetchUsers(0, 5, { direction: 'asc', field: 'calories' });
   }
 
   render() {
@@ -31,19 +47,7 @@ class UsersCard extends React.Component {
       <Col md={12} lg={12}>
         <Card>
           <CardBody className="products-list">
-            <div className="card__title">
-              <h5 className="bold-text">Users</h5>
-              <ButtonToolbar className="products-list__btn-toolbar-top">
-                <div className="form__form-group products-list__search">
-                  <input placeholder="Search..." name="search" />
-                  <MagnifyIcon />
-                </div>
-                <Link className="btn btn-primary products-list__btn-add" to="/pages">Add new
-                  user
-                </Link>
-              </ButtonToolbar>
-            </div>
-            <MatTable tabulatedSource={tabulatedSource} />
+            <MatTable tabulatedSource={tabulatedSource} headers={headers} />
           </CardBody>
         </Card>
       </Col>
