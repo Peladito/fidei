@@ -3,24 +3,28 @@ import PropTypes from 'prop-types';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import MagnifyIcon from 'mdi-react/MagnifyIcon';
+import AccountAddIcon from 'mdi-react/AccountAddIcon';
+import AccountSearchIcon from 'mdi-react/AccountSearchIcon';
 import MatTableFilterButton from './MatTableFilterButton';
 
 const MatTableToolbar = ({
-  numSelected, handleDeleteSelected, handleSearchChange, onRequestSort,
+  numSelected,
+  handleDeleteSelected,
+  handleSearchChange,
+  onRequestSort,
+  handleAddElement,
 }) => (
   <div className="material-table__toolbar-wrap">
     <Toolbar className="material-table__toolbar">
-      <div className="form">
-        <div className="form__form-group products-list__search">
-          <MagnifyIcon />
-          <input placeholder="Search..." name="search" onChange={handleSearchChange} />
+      <div className="form__form-group-field">
+        <input placeholder="Search..." name="search" onChange={handleSearchChange} />
+        <div className="form__form-group-icon">
+          <AccountSearchIcon />
         </div>
       </div>
-      <div style={{ flex: 1 }} />
       <div>
         {numSelected > 0 && (
-        <h5 className="material-table__toolbar-selected">{numSelected} <span>selected</span></h5>
+          <h5 className="material-table__toolbar-selected">{numSelected} <span>selected</span></h5>
         )}
       </div>
       <div>
@@ -34,9 +38,11 @@ const MatTableToolbar = ({
         ) : (
           <MatTableFilterButton onRequestSort={onRequestSort} />
         )}
-        {/* <Link className="btn btn-primary products-list__btn-add" to="/pages">Add new
-          user
-        </Link> */}
+      </div>
+      <div>
+        <IconButton className="icon" size="sm" color="primary" onClick={handleAddElement}>
+          <AccountAddIcon />
+        </IconButton>
       </div>
     </Toolbar>
   </div>
@@ -47,6 +53,7 @@ MatTableToolbar.propTypes = {
   handleDeleteSelected: PropTypes.func.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   handleSearchChange: PropTypes.func.isRequired,
+  handleAddElement: PropTypes.func.isRequired,
 };
 
 export default MatTableToolbar;

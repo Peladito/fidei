@@ -122,32 +122,17 @@ export default class MatTable extends PureComponent {
     }
   }
 
+  handleAddElement = () => {
+    const { tabulatedSource } = this.props;
+    tabulatedSource.handleAddElementRequest();
+  }
+
   render() {
     const {
       selected, rowsPerPage, page,
     } = this.state;
     const { tabulatedSource, headers } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, tabulatedSource.data.length - (page * rowsPerPage));
-    // const headersAndLabels = [
-    //   {
-    //     id: 'id', disablePadding: true, label: 'Select',
-    //   },
-    //   {
-    //     id: 'name', disablePadding: false, label: 'Dessert (100g serving)',
-    //   },
-    //   {
-    //     id: 'calories', disablePadding: false, label: 'Calories',
-    //   },
-    //   {
-    //     id: 'fat', disablePadding: false, label: 'Fat (g)',
-    //   },
-    //   {
-    //     id: 'carbs', disablePadding: false, label: 'Carbs (g)',
-    //   },
-    //   {
-    //     id: 'protein', disablePadding: false, label: 'Protein (g)',
-    //   },
-    // ];
     return (
       <div>
         <MatTableToolbar
@@ -155,6 +140,7 @@ export default class MatTable extends PureComponent {
           handleDeleteSelected={this.handleDeleteSelected}
           onRequestSort={this.handleRequestSort}
           handleSearchChange={this.handleSearch}
+          handleAddElement={this.handleAddElement}
         />
         <div className="material-table__wrap">
           <Table className="material-table">

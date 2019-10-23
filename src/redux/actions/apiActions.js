@@ -60,6 +60,9 @@ export const getUsers = (page, limit, order, searchWords = '') => async (dispatc
       console.log('S',_searchWords);
       dispatch(getUsers(page, limit, order, _searchWords));
     },
+    handleAddElementRequest() {
+      history.push('/pages/users/profile');
+    },
   });
   dispatch(action);
 };

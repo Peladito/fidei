@@ -10,7 +10,7 @@ import ExamplePageTwo from '../ExampleTwo/index';
 const Pages = () => (
   <Switch>
     <Route path="/pages/users" component={UsersPage} />
-    <Route path="/pages/two" component={ExamplePageTwo} />
+    <Route path="/pages/users/profile" component={ExamplePageTwo} />
   </Switch>
 );
 
