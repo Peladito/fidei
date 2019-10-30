@@ -6,11 +6,13 @@ import MainWrapper from './MainWrapper';
 import LogIn from '../LogIn/index';
 import UsersPage from '../Users/index';
 import ExamplePageTwo from '../ExampleTwo/index';
+import Catalog from '../Catalog/index';
 
 const Pages = () => (
   <Switch>
-    <Route path="/pages/users" component={UsersPage} />
+    <Route path="/pages/users/table" component={UsersPage} />
     <Route path="/pages/users/profile" component={ExamplePageTwo} />
+    <Route path="/pages/users/assets" component={Catalog} />
   </Switch>
 );
 

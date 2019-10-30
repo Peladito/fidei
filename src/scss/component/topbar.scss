@@ -637,6 +637,11 @@
   }
 }
 
+.ltr-support {
+  .topbar__submenu {
+    right: 1px;
+  }
+}
 .topbar__submenu {
   position: absolute;
   right: 1px;
