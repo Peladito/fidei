@@ -38,7 +38,6 @@ class Layout extends Component {
 
   render() {
     const { sidebar } = this.props;
-
     const layoutClass = classNames({
       layout: true,
       'layout--collapse': sidebar.collapse,

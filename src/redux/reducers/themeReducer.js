@@ -4,7 +4,7 @@ import {
 } from '../actions/themeActions';
 
 const initialState = {
-  className: 'theme-light',
+  className: 'theme-light ltr-support',
 };
 
 export default function (state = initialState, action) {
