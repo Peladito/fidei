@@ -31,7 +31,7 @@ export default class Catalog extends PureComponent {
         <div className="catalog-items">
           {items.map((item, i) => (
             <CardBody className="catalog-item" key={i}>
-              <Link className="catalog-item__link" to="/e-commerce/product_page">
+              <Link className="catalog-item__link" to="/pages/assets/asset_card">
                 {item.new ? <img className="catalog-item__label" src={New} alt="new" /> : ''}
                 {item.sale ? <img className="catalog-item__label" src={Sale} alt="sale" /> : ''}
                 <div className="catalog-item__img-wrap">

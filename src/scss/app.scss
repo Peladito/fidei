@@ -15,10 +15,12 @@
 @import './component/load';
 @import './component/form';
 @import './component/catalog_item.scss';
+@import './component/product-gallery';        // components/catalog/ProductGallery.js
 
 //pages...
 @import 'containers/account';
 @import 'containers/products-list';        // pages/e-commerce/product_list/*
+@import 'containers/product-card';         // pages/e-commerce/product-page/components/ProductCard.js
 
 //objects...
 @import 'objects/layout.scss';

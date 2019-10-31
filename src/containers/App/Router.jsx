@@ -7,12 +7,14 @@ import LogIn from '../LogIn/index';
 import UsersPage from '../Users/index';
 import ExamplePageTwo from '../ExampleTwo/index';
 import Catalog from '../Catalog/index';
+import ProductPage from '../ProductPage/index';
 
 const Pages = () => (
   <Switch>
     <Route path="/pages/users/table" component={UsersPage} />
     <Route path="/pages/users/profile" component={ExamplePageTwo} />
     <Route path="/pages/users/assets" component={Catalog} />
+    <Route path="/pages/assets/asset_card" component={ProductPage} />
   </Switch>
 );
 
